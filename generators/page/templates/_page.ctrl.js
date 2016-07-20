@@ -1,7 +1,7 @@
 (() => {
 	/**
 	 *
-	 * <%= name %> page controlelr
+	 * <%= name %> page controller
 	 *
 	 */
 	
@@ -23,4 +23,4 @@
 		// define actions
 		$scope.actions = {};
     }
-} );
+} )();

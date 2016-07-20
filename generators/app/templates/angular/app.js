@@ -12,7 +12,7 @@
 	// module dependencies
 	// ! do not remove, used by yo generator !
 	var appModules  = [];
-	var vendorModules = [];
+	var vendorModules = ['ui.router'];
 
 	angular.module('<%= appName %>', appModules.concat( vendorModules ));
 

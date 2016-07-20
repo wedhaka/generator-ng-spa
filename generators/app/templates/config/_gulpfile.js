@@ -43,6 +43,7 @@ envConfig.JS_MINIFY = env.JS_MINIFY || true;
 envConfig.CSS_MINIFY = env.CSS_MINIFY || true;
 envConfig.CSS_PREFIX = env.CSS_PREFIX || true;
 envConfig.JS_LINT = env.JS_LINT || false;
+envConfig.JS_MAPS = env.JS_MAPS || false;
 
 envConfig.APP_API = env.APP_API || 'http://api.conference.irs.wisnz.co.nz';
 
@@ -186,6 +187,7 @@ function jsAndTemplates () {
         .pipe( concat('app.js') )
         // if minify do miinfy
         .pipe( gulpIf( flag( envConfig.JS_MINIFY ), uglify() ) )
+        .pipe( gulpIf( flag( env.JS_MAPS ), sourcemaps.write() ) )
         .pipe(gulp.dest( path.join( envConfig.BUILD_PATH, '/js' ) ));
 }
 

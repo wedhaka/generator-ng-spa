@@ -24,9 +24,9 @@
         appRoutes.forEach( route => {
             var name = route.name;
             delete route.name;
-            $stateProvider.state( route.name, route  );
+            $stateProvider.state( name, route  );
         } );
 
     }
 
-} );
+} )();
