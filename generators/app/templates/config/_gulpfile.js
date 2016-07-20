@@ -206,14 +206,15 @@ function js ()
 
 
 // processes all angular template files to templateCache
+var tplUrlPtrn = /\/*src\/js\/*/i;
 function templates ()
 {
     return gulp.src( path.join( config.jsDir, '/**/*.tpl.html' ) )
         .pipe( templateCache({
-            module: 'nzsTemplates',
+            module: '<%= appName %>Templates',
 			standalone: true,
             transformUrl: function ( url ) {
-                return 'nzsTemplates.' + path.basename( url, '.tpl.html' );
+                return url.replace( tplUrlPtrn, '' );
             }
 		} ) );
 }

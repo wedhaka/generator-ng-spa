@@ -5,6 +5,7 @@ var recast = require('recast');
 var routes = require('./tasks/routes.js')
 var _ = require('lodash');
 var urlJoin = require('url-join');
+var generatorUtil = require('../../common/generator-util.js');
 
 
 /**
@@ -48,13 +49,14 @@ module.exports = generator.Base.extend({
         var destPath = path.join.apply( null, nameSplit );
         var destUrl = urlJoin.apply( null, nameSplit ) 
         var fileName = _.last( nameSplit );
+        var appName = this.config.get('appName');
 
         // template options
         var options = {
-            moduleName: this.config.get('appName') + '.' + 'pages',
-            controllerName: this.config.get('appName') + '.pages.' + _.camelCase( this.options.name ) + 'Ctrl',
-            controllerFn: _.camelCase( this.options.name ) + 'Ctrl',
-            appName: this.config.get('appName'),
+            moduleName: generatorUtil.getModuleName( appName, 'pages' ),
+            controllerName: generatorUtil.getControllerName( appName, 'pages', this.options.name ),
+            controllerFn: generatorUtil.getControllerFn( this.options.name ),
+            appName: appName,
             name: fileName,
         };
 
