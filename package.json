@@ -1,0 +1,24 @@
+{
+  "name": "generator-ng-spa",
+  "version": "0.0.1",
+  "description": "angular, sass, gulp based spa workflow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "pula",
+  "license": "ISC",
+  "files": [
+    "generators/app"
+  ],
+  "dependencies": {
+    "esprima-walk": "^0.1.0",
+    "lodash": "^4.13.1",
+    "recast": "^0.11.10",
+    "url-join": "^1.1.0",
+    "yeoman-generator": "^0.23.4"
+  }
+}

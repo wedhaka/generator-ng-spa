@@ -1,0 +1,23 @@
+{
+  "name": "<%= packageName %>",
+  "description": "",
+  "main": "gulpfile.js",
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "bootstrap-sass": "^3.3.6",
+    "angular": "^1.5.5",
+    "angular-ui-router": "^0.2.18",
+    "font-awesome": "fontawesome#^4.6.3",
+    "angular-animate": "^1.5.7"
+  }
+}
