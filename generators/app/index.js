@@ -4,6 +4,7 @@ var path = require('path');
 
 var configTask = require('./tasks/config.js');
 var angularTasks = require('./tasks/angular.js');
+var sassTasks = require('./tasks/sass.js');
 
 module.exports = generator.Base.extend({
     constructor: function() {
@@ -41,7 +42,7 @@ module.exports = generator.Base.extend({
         // copy configuration
         copyConfiguration: configTask,
         prepareAngular: angularTasks.scafoldApp,
-
+        prepareSass: sassTasks,
     },
 
     install: function () {
