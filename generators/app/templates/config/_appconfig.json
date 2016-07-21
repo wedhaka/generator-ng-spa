@@ -1,0 +1,8 @@
+{
+	"local": {
+		"api": "http://localhost/"
+	},
+	"live": {
+		"api": "https://api.production.com/"
+	}
+}

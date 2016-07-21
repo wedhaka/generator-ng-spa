@@ -8,7 +8,8 @@ module.exports = function () {
         'bower.json',
         'gulpfile.js',
         'jsconfig.json',
-        'package.json'
+        'package.json',
+        'appconfig.json'
     ];
 
     var config = this.config.getAll();

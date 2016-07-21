@@ -5,7 +5,6 @@ var del = require('del');
 var path = require('path');
 var flag = require('node-env-flag');
 var merge = require('merge-stream');
-var gulpMerge = require('gulp-merge');
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var gulpIf = require('gulp-if');
@@ -24,6 +23,7 @@ var templateCache = require('gulp-angular-templatecache');
 var cssPrefix = require('gulp-autoprefixer');
 var sourcemaps = require( 'gulp-sourcemaps' );
 var file = require('gulp-file');
+var ngConfig = require('gulp-ng-config');
     
 
 
@@ -44,8 +44,6 @@ envConfig.CSS_MINIFY = env.CSS_MINIFY || true;
 envConfig.CSS_PREFIX = env.CSS_PREFIX || true;
 envConfig.JS_LINT = env.JS_LINT || false;
 envConfig.JS_MAPS = env.JS_MAPS || false;
-
-envConfig.APP_API = env.APP_API || 'http://api.conference.irs.wisnz.co.nz';
 
 console.log( envConfig );
 
@@ -179,10 +177,10 @@ gulp.task('serve', ['watch'], function(){
  */
 
 function jsAndTemplates () {
-    return gulpMerge (
+    return merge(
+            js(),
             templates(),
-            jsConfig(),
-            js()
+            jsConfig()
         )
         .pipe( concat('app.js') )
         // if minify do miinfy
@@ -211,7 +209,8 @@ function templates ()
 {
     return gulp.src( path.join( config.jsDir, '/**/*.tpl.html' ) )
         .pipe( templateCache({
-            module: '<%= appName %>',
+            module: '<%= appName %>.templates',
+			standalone: true,
             transformUrl: function ( url ) {
                 return url.replace( tplUrlPtrn, '' );
             }
@@ -221,9 +220,13 @@ function templates ()
 // process the current app config
 function jsConfig ()
 {
-    var str = 'window.appConfig = ' + JSON.stringify( envConfig ) + ';';
-
-    return file('primus.js', str, { src: true })
+    
+    return gulp.src('appconfig.json')
+        .pipe( ngConfig( '<%= appName %>.envConfig' , {
+            environment: envConfig.ENV,
+            wrap: true,
+        } ) );
+    
 }
 
 
