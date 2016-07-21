@@ -66,7 +66,7 @@ module.exports = generator.Base.extend({
         );
 
         // add route on routes.js
-        var routesPath = this.destinationPath('src/js/routes.js');
+        var routesPath = this.destinationPath( path.join( 'src/js/modules/', appName , 'routes.js' ) );
         var routesContent = this.read( routesPath );
 
         var ast = recast.parse( routesContent );

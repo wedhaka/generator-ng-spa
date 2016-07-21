@@ -1,3 +1,5 @@
+var path = require( 'path' );
+
 module.exports.scafoldApp = function () {
 
     var base = 'angular';
@@ -15,14 +17,28 @@ module.exports.scafoldApp = function () {
     // create app.js
     this.fs.copyTpl( 
             this.templatePath( 'angular/app.js' ), 
-            this.destinationPath( 'src/js/app.js' ), 
+            this.destinationPath( path.join( 'src/js/modules/', config.appName , '_module.js' ) ), 
             config
         );
 
     // create routes.js
     this.fs.copyTpl( 
             this.templatePath( 'angular/routes.js' ), 
-            this.destinationPath( 'src/js/routes.js' ), 
+            this.destinationPath( path.join( 'src/js/modules/', config.appName , 'routes.js' ) ), 
+            config
+        );
+
+    // create config.js
+    this.fs.copyTpl( 
+            this.templatePath( 'angular/config.js' ), 
+            this.destinationPath( path.join( 'src/js/modules/', config.appName , 'config.js' ) ), 
+            config
+        );
+
+    // create run.js
+    this.fs.copyTpl( 
+            this.templatePath( 'angular/run.js' ), 
+            this.destinationPath( path.join( 'src/js/modules/', config.appName , 'run.js' ) ), 
             config
         );
 

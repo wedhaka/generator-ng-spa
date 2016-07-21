@@ -44,7 +44,12 @@ module.exports = generator.Base.extend({
         );
 
         // add module to app dependencies
-        var appPath = this.destinationPath('src/js/app.js');
+        var appPath = this.destinationPath( path.join( 
+                'src/js/modules/', 
+                this.config.get('appName'), 
+                '_module.js' 
+            ) );
+        
         var appContent = this.read( appPath );
 
         var ast = recast.parse( appContent );
