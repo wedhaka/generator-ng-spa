@@ -19,7 +19,7 @@
         return {
             restrict: 'AEC',
             scope: {},
-            <% if( templatePath ) { %>template: '<%= templatePath %>',<% } %> 
+            <% if( templatePath ) { %>templateUrl: '<%= templatePath %>',<% } %> 
             link: ( scope, element, attr ) => {
 
             }

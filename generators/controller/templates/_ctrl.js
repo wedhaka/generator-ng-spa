@@ -1,7 +1,7 @@
 (() => {
 	/**
 	 *
-	 * <%= name %> page controller
+	 * <%= name %> controller
 	 *
 	 */
 	

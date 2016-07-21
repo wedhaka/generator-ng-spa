@@ -10,7 +10,7 @@ var urlJoin = require('url-join');
 
 /**
  * 
- * Creates directives and attached templates/ partials
+ * Creates controllers
  */
 module.exports = generator.Base.extend({
     constructor: function () {
@@ -20,7 +20,7 @@ module.exports = generator.Base.extend({
         this.option( 
             'name',
             {
-                desc: 'Directive name to be added',
+                desc: 'Controller name to be added',
                 alias: 'n',
                 type: 'string',
             }
@@ -29,7 +29,7 @@ module.exports = generator.Base.extend({
         this.option( 
             'module',
             {
-                desc: 'Name of the directives module',
+                desc: 'Name of the controller\'s module',
                 alias: 'm',
                 type: 'string',
             }
@@ -43,24 +43,6 @@ module.exports = generator.Base.extend({
                 type: 'string',
             }
         ); 
-
-        this.option( 
-            'template',
-            {
-                desc: 'Add template file for the directive (compiles with js)',
-                alias: 't',
-                type: 'boolean',
-            }
-        ); 
-
-        this.option( 
-            'html',
-            {
-                desc: 'Add html partial file for the directive (async load on demand)',
-                alias: 'h',
-                type: 'boolean',
-            }
-        ); 
          
     },
 
@@ -68,7 +50,7 @@ module.exports = generator.Base.extend({
 
         // validations
         if( !this.options.name ) {
-            this.env.error( 'Directive name should be specified' );
+            this.env.error( 'Controller name should be specified' );
         }
 
         // check if module exists
@@ -105,57 +87,25 @@ module.exports = generator.Base.extend({
 
         var appName = this.config.get('appName');
         var destPath = path.join( 'src/js/modules/', this.options.module );
-        var templatePath = '';
-
-        if( this.options.html ) {
-            templatePath = urlJoin( 
-                'partials/modules/', 
-                this.options.module,
-                this.options.path || '', 
-                this.options.name + '.partial.html'
-            );
-        }
-
-        if( this.options.template ) {
-            templatePath = urlJoin( 
-                this.options.module,
-                this.options.path || '', 
-                this.options.name + '.tpl.html'
-            );
-        }
 
         // template options
         var options = {
             moduleName: generatorUtil.getModuleName( appName, this.options.module ),
-            directiveName: generatorUtil.getDirectiveName( this.options.module, this.options.name ),
-            directiveFn: generatorUtil.getDirectiveFn( this.options.name ),
+            controllerName: generatorUtil.getControllerName( appName, this.options.module, this.options.name ),
+            controllerFn: generatorUtil.getControllerFn( this.options.name ),
             appName: appName,
             name: this.options.name,
-            templatePath: templatePath,
         };
 
         this.fs.copyTpl( 
-            this.templatePath( '_directive.js' ), 
+            this.templatePath( '_ctrl.js' ), 
             this.destinationPath( path.join( 
                 destPath, 
                 this.options.path || '', 
-                this.options.name + '.dir.js' 
+                this.options.name + '.ctrl.js' 
             ) ), 
             options
         );
-
-        if( this.options.template || this.options.html ) {
-            this.fs.copyTpl( 
-                this.templatePath( '_template.html' ), 
-                this.destinationPath( path.join( 
-                    destPath, 
-                    this.options.path || '', 
-                    this.options.name + ( this.options.template ? '.tpl.html' : '.partial.html' )
-                ) ), 
-                options
-            );
-        }
-
 
     }
 

@@ -46,25 +46,18 @@ module.exports = generator.Base.extend({
     writing: function () {
 
         var nameSplit = this.options.name.split('.');
-        var destPath = path.join.apply( null, nameSplit );
-        var destUrl = urlJoin.apply( null, nameSplit ) 
         var fileName = _.last( nameSplit );
+        var destPath = path.join.apply( null, nameSplit ); // slice(0,-1)
+        var destUrl = urlJoin.apply( null, nameSplit ); // slice(0,-1)
         var appName = this.config.get('appName');
 
         // template options
         var options = {
-            moduleName: generatorUtil.getModuleName( appName, 'pages' ),
-            controllerName: generatorUtil.getControllerName( appName, 'pages', this.options.name ),
-            controllerFn: generatorUtil.getControllerFn( this.options.name ),
             appName: appName,
             name: fileName,
         };
 
-        this.fs.copyTpl( 
-            this.templatePath( '_page.ctrl.js' ), 
-            this.destinationPath( path.join( 'src/js/modules/pages', destPath, fileName + '.ctrl.js' ) ), 
-            options
-        );
+        this.composeWith('ng-spa:controller', { options: { name: fileName, path: destPath, module: 'pages' } } )
 
         this.fs.copyTpl( 
             this.templatePath( '_page.partial.html' ), 
