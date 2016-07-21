@@ -211,7 +211,7 @@ function templates ()
 {
     return gulp.src( path.join( config.jsDir, '/**/*.tpl.html' ) )
         .pipe( templateCache({
-            module: '<%= appName %>Templates',
+            module: '<%= appName %>.templates',
 			standalone: true,
             transformUrl: function ( url ) {
                 return url.replace( tplUrlPtrn, '' );

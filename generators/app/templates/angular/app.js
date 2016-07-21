@@ -10,7 +10,9 @@
 
 
 	// module dependencies
-	// ! do not remove, used by yo generator !
+	// add '<%= appName %>.templates' to appModules
+	// to incude template module
+	// ! do not rename 'appModules', used by yo generator !
 	var appModules  = [];
 	var vendorModules = ['ui.router'];
 

@@ -18,7 +18,7 @@
 
 
         //routes
-        // ! do not remove, used by yo generator !
+        // ! do not rename 'appRoutes', used by yo generator !
         var appRoutes = [];
 
         appRoutes.forEach( route => {

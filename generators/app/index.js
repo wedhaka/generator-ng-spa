@@ -17,7 +17,7 @@ module.exports = generator.Base.extend({
                 type: 'input',
                 name: 'packageName',
                 message: 'Package name?',
-                default: 'app',
+                default: process.cwd().split(path.sep).pop(),
             },
             {
                 type: 'input',
@@ -46,5 +46,9 @@ module.exports = generator.Base.extend({
 
     install: function () {
         this.installDependencies();
-    }
+    },
+
+    end: function () {
+        this.spawnCommand('gulp', []);
+    },
 });
