@@ -35,6 +35,6 @@ module.exports.scafoldApp = function () {
 
     // create pages module and index page
     this.composeWith('ng-spa:module', { options: { name: 'pages' } });
-    this.composeWith('ng-spa:page', { options: { name: 'index', url: '/' } } )
+    this.composeWith('ng-spa:page', { options: { name: 'index', url: '/' } } );
 
 }

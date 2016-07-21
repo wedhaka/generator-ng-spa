@@ -46,7 +46,7 @@ module.exports = generator.Base.extend({
     writing: function () {
 
         var nameSplit = this.options.name.split('.');
-        var fileName = _.last( nameSplit );
+        var fileName = _.kebabCase( _.last( nameSplit ) );
         var destPath = path.join.apply( null, nameSplit ); // slice(0,-1)
         var destUrl = urlJoin.apply( null, nameSplit ); // slice(0,-1)
         var appName = this.config.get('appName');
@@ -57,7 +57,7 @@ module.exports = generator.Base.extend({
             name: fileName,
         };
 
-        this.composeWith('ng-spa:controller', { options: { name: fileName, path: destPath, module: 'pages' } } )
+        this.composeWith('ng-spa:controller', { options: { name: fileName, path: destPath, module: 'pages', force: true } } )
 
         this.fs.copyTpl( 
             this.templatePath( '_page.partial.html' ), 

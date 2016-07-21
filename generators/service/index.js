@@ -10,17 +10,19 @@ var _ = require('lodash');
 
 /**
  * 
- * Creates controllers
+ * Creates services
  */
 module.exports = generator.Base.extend({
     constructor: function () {
-        generator.Base.apply( this, arguments );   
+        generator.Base.apply( this, arguments );  
+
+        this.serviceTypes = [ 'service', 'factory', 'provider' ];
 
         // process options
         this.option( 
             'name',
             {
-                desc: 'Controller name to be added',
+                desc: 'Service name to be added',
                 alias: 'n',
                 type: 'string',
             }
@@ -29,7 +31,7 @@ module.exports = generator.Base.extend({
         this.option( 
             'module',
             {
-                desc: 'Name of the controller\'s module',
+                desc: 'Name of the service\'s module',
                 alias: 'm',
                 type: 'string',
             }
@@ -45,6 +47,17 @@ module.exports = generator.Base.extend({
         ); 
 
         this.option( 
+            'type',
+            {
+                desc: 'Type of the service ' + this.serviceTypes
+                    .map( s => '\'' + s + '\'' )
+                    .join(', '),
+                alias: 't',
+                type: 'string',
+            }
+        ); 
+
+        this.option( 
             'force',
             {
                 desc: 'Force skip module validation',
@@ -52,14 +65,19 @@ module.exports = generator.Base.extend({
                 type: 'string',
             }
         ); 
+
          
     },
 
     initializing: function () {
 
+        // make case insensitive or assign default
+        this.options.type = this.options.type && this.options.type.toLowerCase() || 
+            'factory';
+
         // validations
         if( !this.options.name ) {
-            this.env.error( 'Controller name should be specified' );
+            this.env.error( 'Service name should be specified' );
         }
 
         // check if module exists
@@ -71,48 +89,58 @@ module.exports = generator.Base.extend({
                 this.env.error( 'Specified module does not exist' );
             }
         }
-        
+
+        // check if service name is correct
+        if( this.serviceTypes.indexOf( this.options.type ) < -1 ) {
+            this.env.error( 'Specified type of service does not exist' );
+        }
 
     },
 
     prompting: function () {
 
+        var prompts = [];
+
         if ( !this.options.module ) {
             var modules = fsUtil.getDirNames( this.destinationPath( 'src/js/modules' ) );
 
-            return this.prompt({
-                name: 'module',
-                type: 'list',
-                message: 'Controller\'s module name',
-                choices: modules,
-            }).then( ( props ) => {
+            prompts.push({
+                    name: 'module',
+                    type: 'list',
+                    message: 'Service\'s module name',
+                    choices: modules,
+                })
+        }
+
+        return this.prompt( prompts )
+            .then( ( props ) => {
                 Object.assign( this.options, props );
-            } );
-        }        
+            } );     
 
     },
 
     writing: function () {
 
         var appName = this.config.get('appName');
-        var destPath = path.join( 'src/js/modules/', this.options.module );
+        var destPath = path.join( 
+                'src/js/modules/', 
+                this.options.module, 
+                this.options.path || '',
+                _.kebabCase( this.options.name ) + '.svc.js'
+            );
 
         // template options
         var options = {
             moduleName: generatorUtil.getModuleName( appName, this.options.module ),
-            controllerName: generatorUtil.getControllerName( this.options.module, this.options.name ),
-            controllerFn: generatorUtil.getControllerFn( this.options.name ),
+            serviceName: generatorUtil.getServiceName( this.options.module, this.options.name ),
+            serviceFn: generatorUtil.getServiceFn( this.options.name ),
             appName: appName,
             name: this.options.name,
         };
-
+        
         this.fs.copyTpl( 
-            this.templatePath( '_ctrl.js' ), 
-            this.destinationPath( path.join( 
-                destPath, 
-                this.options.path || '', 
-                _.kebabCase( this.options.name ) + '.ctrl.js' 
-            ) ), 
+            this.templatePath( '_' + this.options.type + '.js' ), 
+            this.destinationPath( destPath ), 
             options
         );
 

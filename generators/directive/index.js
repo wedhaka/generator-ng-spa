@@ -6,7 +6,7 @@ var recast = require('recast');
 var fsUtil = require('../../common/file.js');
 var generatorUtil = require('../../common/generator-util.js');
 var urlJoin = require('url-join');
-
+var _ = require('lodash');
 
 /**
  * 
@@ -61,6 +61,16 @@ module.exports = generator.Base.extend({
                 type: 'boolean',
             }
         ); 
+
+        this.option( 
+            'force',
+            {
+                desc: 'Force skip module validation',
+                alias: 'f',
+                type: 'string',
+            }
+        ); 
+
          
     },
 
@@ -72,7 +82,7 @@ module.exports = generator.Base.extend({
         }
 
         // check if module exists
-        if( this.options.module ) {
+        if( this.options.module && !this.options.force ) {
             if( !fsUtil.isDir( path.join( 
                 this.destinationPath( 'src/js/modules' ), 
                 this.options.module ) 
