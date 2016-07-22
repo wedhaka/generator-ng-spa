@@ -24,7 +24,9 @@
     "generators/directive",
     "generators/module",
     "generators/page",
-    "generators/service"
+    "generators/service",
+    "generators",
+    "common"
   ],
   "dependencies": {
     "esprima-walk": "^0.1.0",
