@@ -19,7 +19,12 @@
   "url": "https://github.com/pulasthibandara/generator-ng-spa/issues",
   "license": "ISC",
   "files": [
-    "generators/app"
+    "generators/app",
+    "generators/controller",
+    "generators/directive",
+    "generators/module",
+    "generators/page",
+    "generators/service"
   ],
   "dependencies": {
     "esprima-walk": "^0.1.0",
