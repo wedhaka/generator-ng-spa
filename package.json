@@ -1,6 +1,6 @@
 {
   "name": "generator-ng-spa",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Angular, scss, gulp based modular spa workflow based on yeoman",
   "main": "index.js",
   "scripts": {
